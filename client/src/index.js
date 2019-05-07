@@ -6,7 +6,7 @@ const endTime = document.querySelector('#input-end-time')
 
 function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -33.8688, lng: 151.2195},
+      center: {lat: 51.520416, lng: -0.087607},
       zoom: 13,
       mapTypeId: 'roadmap'
     });
@@ -24,8 +24,8 @@ function initAutocomplete() {
     var markers = [];
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
-    searchBox.addListener('places_changed', function(e) {
-        e.preventDefault()
+    searchBox.addListener('places_changed', function() {
+        // e.preventDefault()
       var places = searchBox.getPlaces();
 
       if (places.length == 0) {
