@@ -16,10 +16,15 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
         <!-- Material Design Bootstrap -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/css/mdb.min.css" rel="stylesheet">
+          <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" async defer>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" async defer></script>
+       
     </head>
     <body>
         <!-- navbar-->
-        <nav class="mb-1 navbar navbar-expand-lg navbar-dark mdb-color lighten-2 lighten-1">
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
                 <a class="navbar-brand" href="#">Plan Your Day</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
                   aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
                   <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Login</a>
+                      <a id="login-btn" class="nav-link" href="#">Login</a>
                     </li>
                   </ul>
                   <ul class="navbar-nav ml-auto nav-flex-icons">
@@ -41,9 +46,63 @@
                   </ul>
                 </div>
               </nav>
+        
+              <!-- Jumbotron -->
+                <div class="card card-image" style="background-image: url('https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg');">
+                    <div class="text-white text-center rgba-stylish-strong py-5 px-4">
+                    <div class="py-5">
+                
+                        <!-- Content -->
+                        <h2 class="card-title h2 my-4 py-2">Map Your Day!</h2>
+                        <p class="mb-4 pb-2 px-md-5 mx-md-5">Here you can add the things you want to do within your day.</p>
+                        <a class="btn peach-gradient" id="start-btn"><i class="fas fa-clone left"></i> Start plan here</a>
+                
+                    </div>
+                    </div>
+                </div>
+                <!-- Jumbotron -->
+
+                <!-- Activity form-->
+
+                            <div class="form-group row">
+                                <label for="example-text-input" class="col-2 col-form-label">Activity</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="text" value="" id="example-text-input">
+                                </div>
+                            </div>
+                               
+                            <div class="form-group row">
+                                <label for="example-time-input" class="col-2 col-form-label">Start Time</label>
+                                <div class="col-10">
+                                <input class="form-control" type="time" value="08:00:00" id="example-time-input">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="example-time-input" class="col-2 col-form-label">End Time</label>
+                                <div class="col-10">
+                                <input class="form-control" type="time" value="06:00:00" id="example-time-input">
+                                </div>
+                            </div>
+                                <label for="location" class="col-2 col-form-label">Location</label>
+                                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                                <div id="map"></div>
+
+                            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Add Activity</button>
 
 
+
+
+                <!-- Activity form-->
+
+                <!-- User Activities Summary -->
+
+                <!-- User Activities Summary -->
         
         <script src="./src/index.js" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCatgjG50VIJK_dxRSRtWRSpTLfeDhuDs0&libraries=places&callback=initAutocomplete" async defer></script>
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
     </body>
 </html>
