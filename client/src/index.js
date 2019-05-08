@@ -45,12 +45,13 @@ const toggleTimeline = () => {
   }
 }
 
+const counter = 0 
 // See my timeline
 timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
   timelineList.innerHTML = `
-      <li>
+      <li class=${(counter % 2 !== 0) ? 'timeline-inverted' : 'timeline'}>
         <div class="timeline-badge">
           <a><i class="fa fa-circle" id=""></i></a>
         </div>
@@ -184,3 +185,13 @@ function initAutocomplete() {
       map.fitBounds(bounds);
     });
   }
+
+  // server 
+
+  const getUserData = (user) => {
+    fetch(`http://localhost:3000/users${user.id}`)
+      .then(resp => resp.json())
+  }
+
+  getUserData(user)
+
