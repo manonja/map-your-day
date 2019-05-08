@@ -1,3 +1,4 @@
+const URL = 'http://localhost:3000/users/'
 const startBtn = document.querySelector('#start-btn')
 const loginBtn = document.querySelector('#login-btn')
 const jumbotron = document.querySelector('#jumbotron')
@@ -35,6 +36,7 @@ const toggleSummary = () => {
   }
 }
 
+// toggle timeline
 const toggleTimeline = () => {
   if (timelineDiv.style.display === 'none') {
     activityForm.style.display = 'none'
@@ -45,8 +47,8 @@ const toggleTimeline = () => {
   }
 }
 
+// Display timeline
 const counter = 0 
-// See my timeline
 timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
@@ -70,33 +72,43 @@ timelineBtn.addEventListener('click', () => {
       </div>
     </li>
   `
-  timelineDiv.append(timelineList)
-
-  
+  timelineDiv.append(timelineList)  
 })
 
-// Add activity on click 
-addActivityBtn.addEventListener('click', (e) => {
-  // prevent page to refresh
-  e.preventDefault()
-  // add activity to summary
-  const activityList = document.createElement('ul')
-  activityList.className = "list-group"
-
-  activityList.innerHTML = `
-    <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
+// Display activity
+const displayUserActivity = (user) => {
   
-  `
-  // delete activity
-  const deleteBtn = activityList.querySelector('#delete-btn')
-  deleteBtn.addEventListener('click', () => {
-    activityList.remove()
+
+}
+
+// Display activities
+const displayActivities = (activities) => {
+  activities.forEach(displayUserActivity)
+}
+
+
+// Create activity
+  addActivityBtn.addEventListener('click', (e) => {
+    // prevent page to refresh
+    e.preventDefault()
+    // add activity to summary
+    const activityList = document.createElement('ul')
+    activityList.className = "list-group"
+  
+    activityList.innerHTML = `
+      <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
+    
+    `
+    // delete activity
+    const deleteBtn = activityList.querySelector('#delete-btn')
+    deleteBtn.addEventListener('click', () => {
+      activityList.remove()
+    })
+  
+    summaryDiv.append(activityList)
+    reset() 
+  
   })
-
-  summaryDiv.append(activityList)
-  reset() 
-
-})
 
 const reset = () => {
   activityName.value = ""
@@ -189,9 +201,22 @@ function initAutocomplete() {
   // server 
 
   const getUserData = (user) => {
-    fetch(`http://localhost:3000/users/${user.id}`)
+    return fetch(`${URL}${user.id}`)
       .then(resp => resp.json())
   }
 
-  getUserData(user) 
+  const createActivity = (user) => {
+    return fetch(`${URL}${user.id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(user)
+  }).then(resp => resp.json())   
+  }
+
+  const init = () => {
+    getUserData(user) 
+
+  }
+
+  init()
 
