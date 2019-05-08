@@ -24,7 +24,7 @@
       
         <!-- navbar-->
         <nav id="navbar" class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
-          <a class="navbar-brand" href="#">Plan Your Day</a>
+          <a class="nav-link" href="">Plan Your Day</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
             aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -36,7 +36,7 @@
               </li>
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
-                <button class="btn peach-gradient my-2 my-sm-0 ml-3" type="submit">See what my day looks like today!</button>
+                <button onclick="toggleTimeline()" id="timeline-btn"class="btn peach-gradient my-2 my-sm-0 ml-3" type="submit">See my timeline!</button>
 
             </ul>
           </div>
@@ -84,7 +84,7 @@
           <input id="pac-input" class="controls" type="text" placeholder="Search Box">
           <div id="map"></div>
 
-          <button onclick='toggleSummary()'  class="btn btn-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" id="add-activity-btn" value="Add Activity">Add Activity</button>
+          <button onclick='toggleSummary()'  class="btn orange btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" id="add-activity-btn" value="Add Activity">Add Activity</button>
       </div>
       <!-- Activity form-->
 
@@ -94,6 +94,32 @@
         </div>
       <!-- User Activities Summary -->
 
+      <!-- User Timeline -->
+      <div id="timeline-container" style="display:none">
+        <h3>Your timeline today</h3>
+        
+<!--               
+              <li  class="timeline-inverted">
+                  <div class="timeline-badge">
+                      <a><i class="fa fa-circle invert" id=""></i></a>
+                  </div>
+                  <div class="timeline-panel">
+                      <div class="timeline-heading">
+                          <h4>Timeline Event</h4>
+                      </div>
+                      <div class="timeline-body">
+                          <p>Crede respiciens loco dedit beneficio ad suis alteri si puella eius in. Acceptis codicello lenonem in deinde plectrum anni ipsa quod eam est Apollonius.</p>
+                      </div>
+                      <div class="timeline-footer primary">
+                          <p class="text-right">Mar-02-2014</p>
+                      </div>
+                  </div>
+              </li>
+              <li class="clearfix no-float"></li> -->
+    
+      </div>
+    
+      <!-- User Timeline -->
       <!--scripts-->
       <script src="./src/index.js" async defer></script>
       <!--Google maps API-->

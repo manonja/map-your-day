@@ -5,24 +5,19 @@ const loginModal = document.querySelector('#modalLoginForm')
 const activityForm = document.querySelector('#activity-form')
 const addActivityBtn = document.querySelector('#add-activity-btn')
 const summaryDiv = document.querySelector('#summary-container')
+const timelineDiv = document.querySelector('#timeline-container')
 const activityName = document.querySelector('#activity-name')
 const beginningTime = document.querySelector('#beginning-time')
 const endingTime = document.querySelector('#ending-time')
 const activityLocation = document.querySelector('#pac-input')
+const timelineBtn = document.querySelector('#timeline-btn')
 
-// toggle login modal
-const toggleLogin = () => {
-  if (loginModal.style.display === 'none') {
-    loginModal.style.display = 'block'
-  } else {
-    loginModal.style.display = 'none'
-  }
-}
 // toggle form 
 const toggleAddActivityForm = () => {
   if (activityForm.style.display === 'none') {
     activityForm.style.display = 'block'
     summaryDiv.style.display = 'none'
+    timelineDiv.style.display === 'none'
     jumbotron.style.display = 'none'
   } else {
     activityForm.style.display = 'none'
@@ -40,10 +35,50 @@ const toggleSummary = () => {
   }
 }
 
+const toggleTimeline = () => {
+  if (timelineDiv.style.display === 'none') {
+    activityForm.style.display = 'none'
+    timelineDiv.style.display = 'block'
+    jumbotron.style.display = 'none'
+  } else {
+    timelineDiv.style.display = 'none'
+  }
+}
+
+// See my timeline
+timelineBtn.addEventListener('click', () => {
+  const timelineList = document.createElement('ul')
+  timelineList.className = "timeline"
+  timelineList.innerHTML = `
+      <li>
+        <div class="timeline-badge">
+          <a><i class="fa fa-circle" id=""></i></a>
+        </div>
+        <div class="timeline-panel">
+            <div class="timeline-heading">
+                <h4>${activityName.value}</h4>
+            </div>
+            <div class="timeline-body">
+                <p>${beginningTime.value} - ${endingTime.value}: ${activityName.value} at ${activityLocation.value}</p>
+                <p>This activity will take you ${activityDuration()} hour(s)</p>
+  
+            </div>
+            <div class="timeline-footer">
+                <p class="text-right">May-8-2019</p>
+            </div>
+      </div>
+    </li>
+  `
+  timelineDiv.append(timelineList)
+
+  
+})
+
 // Add activity on click 
 addActivityBtn.addEventListener('click', (e) => {
   // prevent page to refresh
   e.preventDefault()
+  // add activity to summary
   const activityList = document.createElement('ul')
   activityList.className = "list-group"
 
@@ -81,8 +116,6 @@ const timeStringToFloat = (time) => {
 const activityDuration = () => {
   return timeStringToFloat(endingTime.value) - timeStringToFloat(beginningTime.value)
 }
-
-
 
 // init google maps 
 function initAutocomplete() {
