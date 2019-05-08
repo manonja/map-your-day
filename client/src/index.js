@@ -189,9 +189,9 @@ function initAutocomplete() {
   // server 
 
   const getUserData = (user) => {
-    fetch(`http://localhost:3000/users${user.id}`)
+    fetch(`http://localhost:3000/users/${user.id}`)
       .then(resp => resp.json())
   }
 
-  getUserData(user)
+  getUserData(user) 
 
