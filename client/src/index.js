@@ -1,9 +1,136 @@
+const URL = 'http://localhost:3000/users/'
 const startBtn = document.querySelector('#start-btn')
 const loginBtn = document.querySelector('#login-btn')
-const startTime = document.querySelector('#input-start-time')
-const endTime = document.querySelector('#input-end-time')
+const jumbotron = document.querySelector('#jumbotron')
+const loginModal = document.querySelector('#modalLoginForm')
+const activityForm = document.querySelector('#activity-form')
+const addActivityBtn = document.querySelector('#add-activity-btn')
+const summaryDiv = document.querySelector('#summary-container')
+const timelineDiv = document.querySelector('#timeline-container')
+const activityName = document.querySelector('#activity-name')
+const beginningTime = document.querySelector('#beginning-time')
+const endingTime = document.querySelector('#ending-time')
+const activityLocation = document.querySelector('#pac-input')
+const timelineBtn = document.querySelector('#timeline-btn')
+
+// toggle form 
+const toggleAddActivityForm = () => {
+  if (activityForm.style.display === 'none') {
+    activityForm.style.display = 'block'
+    summaryDiv.style.display = 'none'
+    timelineDiv.style.display === 'none'
+    jumbotron.style.display = 'none'
+  } else {
+    activityForm.style.display = 'none'
+  }
+}
+
+// toggle summary
+const toggleSummary = () => {
+  if (summaryDiv.style.display === 'none') {
+    activityForm.style.display = 'none'
+    summaryDiv.style.display = 'block'
+    jumbotron.style.display = 'none'
+  } else {
+    summaryDiv.style.display = 'none'
+  }
+}
+
+// toggle timeline
+const toggleTimeline = () => {
+  if (timelineDiv.style.display === 'none') {
+    activityForm.style.display = 'none'
+    timelineDiv.style.display = 'block'
+    jumbotron.style.display = 'none'
+  } else {
+    timelineDiv.style.display = 'none'
+  }
+}
+
+// Display timeline
+const counter = 0 
+timelineBtn.addEventListener('click', () => {
+  const timelineList = document.createElement('ul')
+  timelineList.className = "timeline"
+  timelineList.innerHTML = `
+      <li class=${(counter % 2 !== 0) ? 'timeline-inverted' : 'timeline'}>
+        <div class="timeline-badge">
+          <a><i class="fa fa-circle" id=""></i></a>
+        </div>
+        <div class="timeline-panel">
+            <div class="timeline-heading">
+                <h4>${activityName.value}</h4>
+            </div>
+            <div class="timeline-body">
+                <p>${beginningTime.value} - ${endingTime.value}: ${activityName.value} at ${activityLocation.value}</p>
+                <p>This activity will take you ${activityDuration()} hour(s)</p>
+  
+            </div>
+            <div class="timeline-footer">
+                <p class="text-right">May-8-2019</p>
+            </div>
+      </div>
+    </li>
+  `
+  timelineDiv.append(timelineList)  
+})
+
+// Display activity
+const displayUserActivity = (user) => {
+  
+
+}
+
+// Display activities
+const displayActivities = (activities) => {
+  activities.forEach(displayUserActivity)
+}
 
 
+// Create activity
+  addActivityBtn.addEventListener('click', (e) => {
+    // prevent page to refresh
+    e.preventDefault()
+    // add activity to summary
+    const activityList = document.createElement('ul')
+    activityList.className = "list-group"
+  
+    activityList.innerHTML = `
+      <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
+    
+    `
+    // delete activity
+    const deleteBtn = activityList.querySelector('#delete-btn')
+    deleteBtn.addEventListener('click', () => {
+      activityList.remove()
+    })
+  
+    summaryDiv.append(activityList)
+    reset() 
+  
+  })
+
+const reset = () => {
+  activityName.value = ""
+  beginningTime.value = "06:00:00"
+  endingTime.value = "08:00:00"
+  activityLocation.value = ""
+}
+
+// convert time to decimal
+const timeStringToFloat = (time) => {
+  let hoursMinutes = time.split(/[.:]/);
+  let hours = parseInt(hoursMinutes[0], 10);
+  let minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+  return hours + minutes / 60;
+}
+
+// calculate duration 
+const activityDuration = () => {
+  return timeStringToFloat(endingTime.value) - timeStringToFloat(beginningTime.value)
+}
+
+// init google maps 
 function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 51.520416, lng: -0.087607},
@@ -25,7 +152,6 @@ function initAutocomplete() {
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener('places_changed', function() {
-        // e.preventDefault()
       var places = searchBox.getPlaces();
 
       if (places.length == 0) {
@@ -71,3 +197,26 @@ function initAutocomplete() {
       map.fitBounds(bounds);
     });
   }
+
+  // server 
+
+  const getUserData = (user) => {
+    return fetch(`${URL}${user.id}`)
+      .then(resp => resp.json())
+  }
+
+  const createActivity = (user) => {
+    return fetch(`${URL}${user.id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(user)
+  }).then(resp => resp.json())   
+  }
+
+  const init = () => {
+    getUserData(user) 
+
+  }
+
+  init()
+

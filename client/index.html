@@ -17,92 +17,98 @@
         <!-- Material Design Bootstrap -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/css/mdb.min.css" rel="stylesheet">
           <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" async defer>
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" async defer></script>
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      
     </head>
     <body>
+      
         <!-- navbar-->
-        <nav class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
-                <a class="navbar-brand" href="#">Plan Your Day</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
-                  aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                      <a id="login-btn" class="nav-link" href="#">Login</a>
-                    </li>
-                  </ul>
-                  <ul class="navbar-nav ml-auto nav-flex-icons">
-                    <li class="nav-item avatar">
-                      <a class="nav-link p-0" href="#">
-                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
-                          alt="avatar image" height="35">
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
+        <nav id="navbar" class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
+          <a class="nav-link" href="">Plan Your Day</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+            aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a onclick="toggleLogin()" id="login-btn" class="nav-link" data-toggle="modal" data-target="#modalLoginForm"href="">Login</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ml-auto nav-flex-icons">
+                <button onclick="toggleTimeline()" id="timeline-btn"class="btn peach-gradient my-2 my-sm-0 ml-3" type="submit">See my timeline!</button>
 
-              <!-- Jumbotron -->
-                <div class="card card-image" style="background-image: url('https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg');">
-                    <div class="text-white text-center rgba-stylish-strong py-5 px-4">
-                    <div class="py-5">
+            </ul>
+          </div>
+        </nav>
 
-                        <!-- Content -->
-                        <h2 class="card-title h2 my-4 py-2">Map Your Day!</h2>
-                        <p class="mb-4 pb-2 px-md-5 mx-md-5">Here you can add the things you want to do within your day.</p>
-                        <a class="btn peach-gradient" id="start-btn"><i class="fas fa-clone left"></i> Start plan here</a>
+    <!-- Jumbotron -->
+      <div id="jumbotron" class="card card-image" style="background-image: url('https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg');">
+          <div class="text-white text-center rgba-stylish-strong py-5 px-4">
+          <div class="py-5">
 
-                    </div>
-                    </div>
-                </div>
-                <!-- Jumbotron -->
+              <!-- Content -->
+              <h2 class="card-title h2 my-4 py-2">Map Your Day!</h2>
+              <p class="mb-4 pb-2 px-md-5 mx-md-5">Here you can add the things you want to do today.</p>
+              <input onclick='toggleAddActivityForm()' class="btn peach-gradient" id="start-btn" type="submit"value="Start planning">
 
-                <!-- Activity form-->
+          </div>
+          </div>
+      </div>
+      <!-- Jumbotron -->
 
-                            <div class="form-group row">
-                                <label for="example-text-input" class="col-2 col-form-label">Activity</label>
-                                <div class="col-10">
-                                    <input class="form-control" type="text" value="" id="example-text-input">
-                                </div>
-                            </div>
+      <!-- Activity form-->
+    <div id="activity-form" style="display:none">
+      <h3> What's the plan today?</h3>
+          <div class="form-group row">
+              <label for="example-text-input" class="col-2 col-form-label">Activity</label>
+              <div class="col-10">
+                  <input class="form-control" type="text" value="" id="activity-name">
+              </div>
+          </div>
 
-                            <div class="form-group row">
-                                <label for="example-time-input" class="col-2 col-form-label">Start Time</label>
-                                <div class="col-10">
-                                <input class="form-control" type="time" value="08:00:00" id="example-time-input">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="example-time-input" class="col-2 col-form-label">End Time</label>
-                                <div class="col-10">
-                                <input class="form-control" type="time" value="06:00:00" id="example-time-input">
-                                </div>
-                            </div>
-                                <label for="location" class="col-2 col-form-label">Location</label>
-                                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                                <div id="map"></div>
+          <div class="form-group row">
+              <label for="example-time-input" class="col-2 col-form-label">Start Time</label>
+              <div class="col-10">
+              <input class="form-control" type="time" value="08:00:00" id="beginning-time">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="example-time-input" class="col-2 col-form-label">End Time</label>
+              <div class="col-10">
+                <input class="form-control" type="time" value="06:00:00" id="ending-time">
+              </div>
+          </div>
 
-                            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Add Activity</button>
+          <label for="location" class="col-2 col-form-label">Location</label>
+          <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+          <div id="map"></div>
 
+          <button onclick='toggleSummary()'  class="btn orange btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" id="add-activity-btn" value="Add Activity">Add Activity</button>
+      </div>
+      <!-- Activity form-->
 
+      <!-- User Activities Summary -->
+        <div id="summary-container" style="display:none">
+          <h3>Today's Activities <span><i onclick='toggleAddActivityForm()' class="fas fa-plus" style="float: center;"></i></span></h3>    
+        </div>
+      <!-- User Activities Summary -->
 
-
-                <!-- Activity form-->
-
-                <!-- User Activities Summary -->
-
-                <!-- User Activities Summary -->
-
-        <script src="./src/index.js" async defer></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCatgjG50VIJK_dxRSRtWRSpTLfeDhuDs0&libraries=places&callback=initAutocomplete" async defer></script>
-        <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
+      <!-- User Timeline -->
+      <div id="timeline-container" style="display:none">
+        <h3>Your timeline today</h3>
+      </div>
+    
+      <!-- User Timeline -->
+      <!--scripts-->
+      <script src="./src/index.js" async defer></script>
+      <!--Google maps API-->
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCatgjG50VIJK_dxRSRtWRSpTLfeDhuDs0&libraries=places&callback=initAutocomplete" async defer></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+      <!--JQuery-->
+      <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
     </body>
 </html>
