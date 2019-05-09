@@ -42,7 +42,7 @@ const toggleSummary = () => {
     addActivityBtn.style.display = 'none'
   } else {
     summaryDiv.style.display = 'none'
-   
+
   }
 }
 
@@ -65,7 +65,7 @@ const toggleTimeline = () => {
 //   e.preventDefault()
 // })
 
-// Display timeline for one activity 
+// Display timeline for one activity
 const displayActivityTimeline = () => {
 
 }
@@ -93,12 +93,12 @@ const activity = () => {
             </div>
         </div>
       </li>
-      
+
       `
 
   })
   return newItem
-  
+
 }
 
 timelineBtn.addEventListener('click', () => {
@@ -120,14 +120,36 @@ const displayActivities = () => {
   state.activities.forEach(displayUserActivity)
 }
 
-// Create activity
+//POST activities
+// const createActivity = () => {
+//   return fetch(`${URL}${state.currentUser.id}`, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json'},
+//     body: JSON.stringify({user_id: state.currentUser.id,
+//                           // activities: {name: activityName.value, beginning_time: beginningTime.value,
+//                           //             end_time: endingTime.value, location: activityLocation.value}
+//                                     })
+// }).then(resp => resp.json())}
+
+// // Create activity
+
   addActivityBtn.addEventListener('click', (e) => {
     // prevent page to refresh
     e.preventDefault()
+    // debugger
+    //add to API
+    fetch(`http://localhost:3000/activities`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({user_id: state.currentUser.id,
+                            name: activityName.value, beginning_time: beginningTime.value,
+                                        end_time: endingTime.value, location: activityLocation.value
+                                      })
+  }).then(resp => resp.json())
     // add activity to summary
     const activityList = document.createElement('ul')
     activityList.className = "list-group"
-    
+
     activityList.innerHTML = `
       <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
 
@@ -142,7 +164,7 @@ const displayActivities = () => {
     reset()
 
   })
-  
+
   const reset = () => {
     activityName.value = ""
     beginningTime.value = "06:00:00"
@@ -242,11 +264,12 @@ function initAutocomplete() {
 
 // login
 userLogin.addEventListener('click', (e) => {
+
   e.preventDefault()
   const modal = document.querySelector("#id01")
 
   let userName = modal.querySelector('#username').value
-  login(userName).then(data => { 
+  login(userName).then(data => {
     state.currentUser = data
     state.activities = data.activities
   })
@@ -270,13 +293,8 @@ const getUserData = (user) => {
     .then(resp => resp.json())
 }
 
-const createActivity = (user) => {
-  return fetch(`${URL}${user.id}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(user)
-}).then(resp => resp.json())
-}
+
+// }
 
 // const init = () => {
 //   getUserData(user).then( (user) => {

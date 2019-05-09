@@ -16,6 +16,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    user = User.find_by(id: params[:id])
+    if user
+      user.update(user_params)
+      render json: user
+    else
+      render json: {error: "Could not update"}, status: 404
+    end
+  end
+
   def show
     user = User.find_by(id: params[:id])
     if user
@@ -23,5 +33,11 @@ class UsersController < ApplicationController
     else
       render json: {error: "This user does not exist?"}, status: 404
     end
+  end
+
+  private
+
+  def user_params
+      params.require(:user).permit(:id)
   end
 end

@@ -20,10 +20,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" async defer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js" async defer></script>
 
-      
+
     </head>
     <body>
-      
+
         <!-- navbar-->
         <nav id="navbar" class="mb-1 navbar navbar-expand-lg navbar-dark orange lighten-1">
           <a id="home" class="nav-link" href="">Plan Your Day</a>
@@ -37,7 +37,7 @@
                   <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="modal" data-target="#modalLoginForm" aria-expanded="false">Login</button> -->
                 <!-- <a id="login-btn" class="btn" data-toggle="modal" data-target="#modalLoginForm" href="">Login</a>   -->
                 <button id="login-btn" class="btn" onclick="document.getElementById('id01').style.display='block'">Login</button>
-     
+
               </li>
             </ul>
             <i onclick='toggleAddActivityForm()' class="fas fa-plus" style="float: center;"></i></span>
@@ -50,8 +50,8 @@
 
         <!-- Modal Content -->
         <div id="id01" class="modal">
-            <span onclick="document.getElementById('id01').style.display='none'" 
-          class="close" title="Close Modal">&times;</span> 
+            <span onclick="document.getElementById('id01').style.display='none'"
+          class="close" title="Close Modal">&times;</span>
             <form id="login-form"class="modal-content animate">
               <div class="container">
                 <label for="username"><b>Your name</b></label>
@@ -60,7 +60,7 @@
               </div>
             </form>
           </div>
-      
+
 
     <!-- Jumbotron -->
       <div id="jumbotron" class="card card-image" style="background-image: url('https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg');">
@@ -78,7 +78,7 @@
       <!-- Jumbotron -->
 
       <!-- Activity form-->
-      
+
     <div id="activity-form" style="display:none">
       <div class="start">
           <h3> What's the plan today?</h3>
@@ -101,10 +101,10 @@
                 <input class="form-control" type="time" value="06:00:00" id="ending-time">
               </div>
           </div>
-          
+
           <label for="location" class="col-2 col-form-label">Location</label>
           <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-          
+
       </div>
     </div>
     <div id="map" style="display:none"></div>
@@ -113,7 +113,7 @@
 
       <!-- User Activities Summary -->
         <div id="summary-container" style="display:none">
-          <h3>Today's Activities <span><i onclick='toggleAddActivityForm()' class="fas fa-plus" style="float: center;"></i></span></h3>    
+          <h3>Today's Activities <span><i onclick='toggleAddActivityForm()' class="fas fa-plus" style="float: center;"></i></span></h3>
         </div>
       <!-- User Activities Summary -->
 ¡
@@ -121,7 +121,7 @@
       <div id="timeline-container" style="display:none">
         <h3>Your timeline today</h3>
       </div>
-    
+
       <!-- User Timeline -->
       <!--scripts-->
       <script src="./src/index.js" async defer></script>
