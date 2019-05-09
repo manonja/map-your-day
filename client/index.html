@@ -40,6 +40,7 @@
      
               </li>
             </ul>
+            <i onclick='toggleAddActivityForm()' class="fas fa-plus" style="float: center;"></i></span>
             <ul class="navbar-nav ml-auto nav-flex-icons">
                 <button onclick="toggleTimeline()" id="timeline-btn"class="btn peach-gradient my-2 my-sm-0 ml-3" type="submit">See my timeline!</button>
 
@@ -51,11 +52,11 @@
         <div id="id01" class="modal">
             <span onclick="document.getElementById('id01').style.display='none'" 
           class="close" title="Close Modal">&times;</span> 
-            <form id="login-form"class="modal-content animate" >
+            <form id="login-form"class="modal-content animate">
               <div class="container">
                 <label for="username"><b>Your name</b></label>
                 <input id="username"type="text" placeholder="Enter Username" name="username" required>
-                <button id="login" type="submit">Login</button> 
+                <button id="login" type="submit">Login</button>
               </div>
             </form>
           </div>
