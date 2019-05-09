@@ -83,8 +83,8 @@ const displayUserActivity = (user) => {
 }
 
 // Display activities
-const displayActivities = (activities) => {
-  activities.forEach(displayUserActivity)
+const displayActivities = () => {
+  state.activities.forEach(displayUserActivity)
 }
 
 
@@ -199,6 +199,15 @@ function initAutocomplete() {
     });
   }
 
+
+  //state
+const state = {
+  currentUser = null
+  activities = []
+}
+
+
+
   // server
 
   const getUserData = (user) => {
@@ -214,9 +223,12 @@ function initAutocomplete() {
   }).then(resp => resp.json())
   }
 
-  const init = () => {
-    getUserData(user)
-
-  }
-
-  init()
+  // const init = () => {
+  //   getUserData(user).then( (user) => {
+  //     state.activities = user.activities
+  //     state.currentUser = user
+  //   })
+  //
+  // }
+  //
+  // init()
