@@ -12,6 +12,7 @@ const beginningTime = document.querySelector('#beginning-time')
 const endingTime = document.querySelector('#ending-time')
 const activityLocation = document.querySelector('#pac-input')
 const timelineBtn = document.querySelector('#timeline-btn')
+const userLogin = document.querySelector("#login")
 
 // toggle form
 const toggleAddActivityForm = () => {
@@ -202,14 +203,33 @@ function initAutocomplete() {
 
     //state
   const state = {
-    currentUser = null
-    activities = []
+    currentUser: null,
+    activities: []
   }
 
+// login
+userLogin.addEventListener('click', (e) => {
+  e.preventDefault()
+  const modal = document.querySelector("#id01")
+  let userName = modal.querySelector('#username').value
+  login(userName).then(data => {
+    state.currentUser = data.username
+    state.activities = data.activities
+  })
+  // debugger
+})
 
-    // get user infos:
-    const modal = document.querySelector("#id01")
-    modal.querySelector('#username').value
+  // server
+  const login = userName => {
+    return fetch(URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({username: userName})
+    })
+      .then(resp => resp.json())
+      .catch(err => console.log(err))
+
+  }
 
     //server
   const getUserData = (user) => {
