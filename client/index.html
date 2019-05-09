@@ -13,11 +13,13 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
         <!-- Bootstrap core CSS -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" async defer>
         <!-- Material Design Bootstrap -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/css/mdb.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/css/mdb.min.css" rel="stylesheet" async defer>
           <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" async defer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js" async defer></script>
+
       
     </head>
     <body>
@@ -32,7 +34,10 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a onclick="toggleLogin()" id="login-btn" class="nav-link" data-toggle="modal" data-target="#modalLoginForm"href="">Login</a>
+                  <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="modal" data-target="#modalLoginForm" aria-expanded="false">Login</button> -->
+                <!-- <a id="login-btn" class="btn" data-toggle="modal" data-target="#modalLoginForm" href="">Login</a>   -->
+                <button id="login-btn" class="btn" onclick="document.getElementById('id01').style.display='block'">Login</button>
+     
               </li>
             </ul>
             <ul class="navbar-nav ml-auto nav-flex-icons">
@@ -41,6 +46,20 @@
             </ul>
           </div>
         </nav>
+
+        <!-- Modal Content -->
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" 
+          class="close" title="Close Modal">&times;</span> 
+            <form id="login-form"class="modal-content animate" action="/action_page.php">
+              <div class="container">
+                <label for="username"><b>Your name</b></label>
+                <input id="username"type="text" placeholder="Enter Username" name="username" required>
+                <button type="submit">Login</button> 
+              </div>
+            </form>
+          </div>
+      
 
     <!-- Jumbotron -->
       <div id="jumbotron" class="card card-image" style="background-image: url('https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg');">
@@ -104,7 +123,6 @@
       <script src="./src/index.js" async defer></script>
       <!--Google maps API-->
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCatgjG50VIJK_dxRSRtWRSpTLfeDhuDs0&libraries=places&callback=initAutocomplete" async defer></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
       <!--JQuery-->
       <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"

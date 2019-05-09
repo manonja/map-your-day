@@ -77,7 +77,7 @@ timelineBtn.addEventListener('click', () => {
 
 // Display activity
 const displayUserActivity = (user) => {
-  
+
 
 }
 
@@ -198,6 +198,12 @@ function initAutocomplete() {
     });
   }
 
+
+// get user infos: 
+modal = document.querySelector("#id01")
+modal.querySelector('#username').value 
+
+
   // server 
 
   const getUserData = (user) => {
@@ -218,5 +224,5 @@ function initAutocomplete() {
 
   }
 
-  init()
+  // init()
 
