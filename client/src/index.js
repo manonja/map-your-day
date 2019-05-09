@@ -13,16 +13,21 @@ const endingTime = document.querySelector('#ending-time')
 const activityLocation = document.querySelector('#pac-input')
 const timelineBtn = document.querySelector('#timeline-btn')
 const userLogin = document.querySelector("#login")
+const map = document.querySelector('#map')
 
 // toggle form
 const toggleAddActivityForm = () => {
   if (activityForm.style.display === 'none') {
     activityForm.style.display = 'block'
+    map.style.display = 'block'
+    addActivityBtn.style.display = 'block'
     summaryDiv.style.display = 'none'
     timelineDiv.style.display === 'none'
     jumbotron.style.display = 'none'
   } else {
     activityForm.style.display = 'none'
+    map.style.display = 'none'
+    addActivityBtn.style.display = 'none'
   }
 }
 
@@ -53,10 +58,11 @@ const displayActivityTimeline = () => {
   
 }
 
-
+let counter = 0
 const activity = () => {
   let newItem = ""
   state.activities.forEach(el => {
+    counter++
       newItem += `
         <li class=${(counter % 2 !== 0) ? 'timeline-inverted' : 'timeline'}>
         <div class="timeline-badge">
@@ -83,9 +89,6 @@ const activity = () => {
   
 }
 
-
-
-const counter = 0
 timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
@@ -112,7 +115,7 @@ const displayActivities = () => {
     // add activity to summary
     const activityList = document.createElement('ul')
     activityList.className = "list-group"
-
+    
     activityList.innerHTML = `
       <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
 
@@ -134,6 +137,7 @@ const reset = () => {
   endingTime.value = "08:00:00"
   activityLocation.value = ""
 }
+
 
 // convert time to decimal
 const timeStringToFloat = (time) => {
@@ -233,8 +237,8 @@ userLogin.addEventListener('click', (e) => {
   login(userName).then(data => { 
     state.currentUser = data
     state.activities = data.activities
-    
   })
+  modal.style.display = 'none'
 })
 
 const login = userName => {
@@ -271,3 +275,7 @@ const createActivity = (user) => {
 // }
 //
 // init()
+
+document.addEventListener("DOMContentLoaded", () => {
+  initAutocomplete()
+})

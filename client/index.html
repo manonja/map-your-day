@@ -78,8 +78,10 @@
       <!-- Jumbotron -->
 
       <!-- Activity form-->
+      
     <div id="activity-form" style="display:none">
-      <h3> What's the plan today?</h3>
+      <div class="start">
+          <h3> What's the plan today?</h3>
           <div class="form-group row">
               <label for="example-text-input" class="col-2 col-form-label">Activity</label>
               <div class="col-10">
@@ -99,21 +101,22 @@
                 <input class="form-control" type="time" value="06:00:00" id="ending-time">
               </div>
           </div>
-
+          
           <label for="location" class="col-2 col-form-label">Location</label>
           <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-          <div id="map"></div>
-
-          <button onclick='toggleSummary()'  class="btn orange btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" id="add-activity-btn" value="Add Activity">Add Activity</button>
+          
       </div>
-      <!-- Activity form-->
+    </div>
+    <div id="map" style="display:none"></div>
+    <button style="display:none" onclick='toggleSummary()'  class="btn orange btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit" id="add-activity-btn" value="Add Activity">Add Activity</button>
+        <!-- Activity form-->
 
       <!-- User Activities Summary -->
         <div id="summary-container" style="display:none">
           <h3>Today's Activities <span><i onclick='toggleAddActivityForm()' class="fas fa-plus" style="float: center;"></i></span></h3>    
         </div>
       <!-- User Activities Summary -->
-
+¡
       <!-- User Timeline -->
       <div id="timeline-container" style="display:none">
         <h3>Your timeline today</h3>
