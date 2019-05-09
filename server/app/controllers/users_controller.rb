@@ -2,7 +2,9 @@ class UsersController < ApplicationController
 
 
   def create
-    user = User.create(username: params[:username])
+    name = params[:username]
+    user = User.find_or_create_by(username: name)
+
     if user
       render json: user
     else
@@ -18,7 +20,4 @@ class UsersController < ApplicationController
       render json: {error: "This user does not exist?"}, status: 404
     end
   end
-
-
-
 end
