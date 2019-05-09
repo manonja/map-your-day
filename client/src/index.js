@@ -212,8 +212,8 @@ userLogin.addEventListener('click', (e) => {
   e.preventDefault()
   const modal = document.querySelector("#id01")
   let userName = modal.querySelector('#username').value
-  login(userName).then(data => {
-    state.currentUser = data.username
+  login(userName).then(data => {  
+    state.currentUser = data
     state.activities = data.activities
   })
   // debugger
