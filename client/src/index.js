@@ -200,19 +200,19 @@ function initAutocomplete() {
   }
 
 
-
 // login 
 userLogin.addEventListener('click', (e) => {
   e.preventDefault() 
   const modal = document.querySelector("#id01")
   let userName = modal.querySelector('#username').value 
   login(userName)
-  
+
+
 })
 
   // server 
   const login = userName => {
-    fetch(URL, {
+    return fetch(URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({username: userName})
