@@ -14,7 +14,7 @@ const activityLocation = document.querySelector('#pac-input')
 const timelineBtn = document.querySelector('#timeline-btn')
 const userLogin = document.querySelector("#login")
 
-// toggle form 
+// toggle form
 const toggleAddActivityForm = () => {
   if (activityForm.style.display === 'none') {
     activityForm.style.display = 'block'
@@ -49,7 +49,7 @@ const toggleTimeline = () => {
 }
 
 // Display timeline
-const counter = 0 
+const counter = 0
 timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
@@ -65,7 +65,6 @@ timelineBtn.addEventListener('click', () => {
             <div class="timeline-body">
                 <p>${beginningTime.value} - ${endingTime.value}: ${activityName.value} at ${activityLocation.value}</p>
                 <p>This activity will take you ${activityDuration()} hour(s)</p>
-  
             </div>
             <div class="timeline-footer">
                 <p class="text-right">May-8-2019</p>
@@ -73,8 +72,10 @@ timelineBtn.addEventListener('click', () => {
       </div>
     </li>
   `
-  timelineDiv.append(timelineList)  
+  timelineDiv.append(timelineList)
 })
+//should we add the location and/or a little map?^
+
 
 // Display activity
 const displayUserActivity = (user) => {
@@ -83,8 +84,8 @@ const displayUserActivity = (user) => {
 }
 
 // Display activities
-const displayActivities = (activities) => {
-  activities.forEach(displayUserActivity)
+const displayActivities = () => {
+  state.activities.forEach(displayUserActivity)
 }
 
 
@@ -95,20 +96,20 @@ const displayActivities = (activities) => {
     // add activity to summary
     const activityList = document.createElement('ul')
     activityList.className = "list-group"
-  
+
     activityList.innerHTML = `
       <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
-    
+
     `
     // delete activity
     const deleteBtn = activityList.querySelector('#delete-btn')
     deleteBtn.addEventListener('click', () => {
       activityList.remove()
     })
-  
+
     summaryDiv.append(activityList)
-    reset() 
-  
+    reset()
+
   })
 
 const reset = () => {
@@ -126,12 +127,12 @@ const timeStringToFloat = (time) => {
   return hours + minutes / 60;
 }
 
-// calculate duration 
+// calculate duration
 const activityDuration = () => {
   return timeStringToFloat(endingTime.value) - timeStringToFloat(beginningTime.value)
 }
 
-// init google maps 
+// init google maps
 function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 51.520416, lng: -0.087607},
@@ -200,17 +201,26 @@ function initAutocomplete() {
   }
 
 
-// login 
+
+//state
+  const state = {
+    currentUser: null,
+    activities: []
+  }
+
+// login
 userLogin.addEventListener('click', (e) => {
-  e.preventDefault() 
+  e.preventDefault()
   const modal = document.querySelector("#id01")
-  let userName = modal.querySelector('#username').value 
-  login(userName)
 
-
+  let userName = modal.querySelector('#username').value
+  login(userName).then(data => {
+    state.currentUser = data.username
+    state.activities = data.activities
+  })
 })
 
-  // server 
+  // server
   const login = userName => {
     return fetch(URL, {
       method: 'POST',
@@ -218,10 +228,11 @@ userLogin.addEventListener('click', (e) => {
       body: JSON.stringify({username: userName})
     })
       .then(resp => resp.json())
-      .then(data => console.log(data))
       .catch(err => console.log(err))
+
   }
 
+    //server
   const getUserData = (user) => {
     return fetch(`${URL}${user.id}`)
       .then(resp => resp.json())
@@ -232,13 +243,15 @@ userLogin.addEventListener('click', (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify(user)
-  }).then(resp => resp.json())   
+  }).then(resp => resp.json())
   }
 
-  const init = () => {
-    getUserData(user) 
-
-  }
-
+  // const init = () => {
+  //   getUserData(user).then( (user) => {
+  //     state.activities = user.activities
+  //     state.currentUser = user
+  //   })
+  //
+  // }
+  //
   // init()
-

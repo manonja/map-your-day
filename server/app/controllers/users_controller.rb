@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
 
+  def index
+    users = User.all
+    render json: users
+  end
 
   def create
     name = params[:username]
@@ -9,7 +13,7 @@ class UsersController < ApplicationController
       render json: user
     else
       render json: {error: "Erorr creating user"}, status: 400
-    end 
+    end
   end
 
   def show
