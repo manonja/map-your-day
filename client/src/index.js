@@ -200,16 +200,18 @@ function initAutocomplete() {
   }
 
 
-  //state
-const state = {
-  currentUser = null
-  activities = []
-}
+    //state
+  const state = {
+    currentUser = null
+    activities = []
+  }
 
 
+    // get user infos:
+    const modal = document.querySelector("#id01")
+    modal.querySelector('#username').value
 
-  // server
-
+    //server
   const getUserData = (user) => {
     return fetch(`${URL}${user.id}`)
       .then(resp => resp.json())
