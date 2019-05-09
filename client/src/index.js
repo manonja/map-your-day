@@ -14,6 +14,7 @@ const activityLocation = document.querySelector('#pac-input')
 const timelineBtn = document.querySelector('#timeline-btn')
 const userLogin = document.querySelector("#login")
 const map = document.querySelector('#map')
+const homePage = document.querySelector('#home')
 
 // toggle form
 const toggleAddActivityForm = () => {
@@ -37,8 +38,11 @@ const toggleSummary = () => {
     activityForm.style.display = 'none'
     summaryDiv.style.display = 'block'
     jumbotron.style.display = 'none'
+    map.style.display = 'none'
+    addActivityBtn.style.display = 'none'
   } else {
     summaryDiv.style.display = 'none'
+
   }
 }
 
@@ -48,10 +52,18 @@ const toggleTimeline = () => {
     activityForm.style.display = 'none'
     timelineDiv.style.display = 'block'
     jumbotron.style.display = 'none'
+    summaryDiv.style.display = 'none'
+    map.style.display = 'none'
+    addActivityBtn.style.display = 'none'
   } else {
     timelineDiv.style.display = 'none'
   }
 }
+
+// prevent the page to refresh when we click the homepage button
+// homePage.addEventListener('click', (e) => {
+//   e.preventDefault()
+// })
 
 // Display timeline for one activity
 const displayActivityTimeline = () => {
@@ -153,10 +165,10 @@ const displayActivities = () => {
 
   })
 
-const reset = () => {
-  activityName.value = ""
-  beginningTime.value = "06:00:00"
-  endingTime.value = "08:00:00"
+  const reset = () => {
+    activityName.value = ""
+    beginningTime.value = "06:00:00"
+    endingTime.value = "08:00:00"
   activityLocation.value = ""
 }
 
