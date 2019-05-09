@@ -105,10 +105,18 @@ const displayActivities = () => {
   state.activities.forEach(displayUserActivity)
 }
 
+const createActivity = (activityName, beginningTime, endingTime, activityLocation) => {
+  return fetch(`${URL}${state.currentUser.id}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify({user_id: state.currentUser.id, activities: {name: activityName.value, beginning_time: beginningTime.value, end_time: endingTime.value, location: activityLocation.value}})
+}).then(resp => resp.json())
 // Create activity
   addActivityBtn.addEventListener('click', (e) => {
     // prevent page to refresh
-    e.preventDefault()
+    e.preventDefault(activityName.value, beginningTime.value, endingTime.value, activityLocation.value)
+    //add to API
+    createActivity()
     // add activity to summary
     const activityList = document.createElement('ul')
     activityList.className = "list-group"
@@ -226,6 +234,7 @@ function initAutocomplete() {
 
 // login
 userLogin.addEventListener('click', (e) => {
+  debugger
   e.preventDefault()
   const modal = document.querySelector("#id01")
 
@@ -254,12 +263,7 @@ const getUserData = (user) => {
     .then(resp => resp.json())
 }
 
-const createActivity = (user) => {
-  return fetch(`${URL}${user.id}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(user)
-}).then(resp => resp.json())
+
 }
 
 // const init = () => {
