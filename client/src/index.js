@@ -113,12 +113,12 @@ const timeLineActivity = () => {
 
 // Display summary for each activity
 const summaryActivity = () => {
-  // reset page 
+  // reset page
   summaryDiv.innerHTML = ""
   newActivity = ""
   state.activities.forEach(el => {
     newActivity += `
-    <li class="list-group-item">${el.beginning_time}h - ${el.end_time}h: ${el.name} - Where? ${el.location} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>  
+    <li class="list-group-item">${el.beginning_time}h - ${el.end_time}h: ${el.name} - Where? ${el.location} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
     `
   })
   return newActivity
@@ -133,11 +133,25 @@ timelineBtn.addEventListener('click', () => {
 })
 //should we add the location and/or a little map?^
 
-// Create activity 
+
+// Display activity
+const displayUserActivity = (user) => {
+
+}
+
+// Display activities
+const displayActivities = () => {
+  state.activities.forEach(displayUserActivity)
+}
+
+
+// Create activity
+
   addActivityBtn.addEventListener('click', (e) => {
     // prevent page to refresh
     e.preventDefault()
-    // debugger
+    state.activities.push({name: activityName.value, beginning_time: timeStringToFloat(beginningTime.value),
+                end_time: timeStringToFloat(endingTime.value), location: activityLocation.value})
     //add to API
     fetch(activities_URL, {
       method: 'POST',
