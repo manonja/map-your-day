@@ -81,6 +81,7 @@ homePage.addEventListener('click', (e) => {
 
 })
 
+// sort activities
 
 // Display timeline for each activity
 let counter = 0
