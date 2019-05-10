@@ -128,7 +128,7 @@ const summaryActivity = () => {
 timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
-  timelineList.innerHTML = timelineActivity()
+  timelineList.innerHTML = timeLineActivity()
   timelineDiv.append(timelineList)
 })
 //should we add the location and/or a little map?^
