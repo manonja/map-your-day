@@ -120,23 +120,14 @@ const displayActivities = () => {
   state.activities.forEach(displayUserActivity)
 }
 
-//POST activities
-// const createActivity = () => {
-//   return fetch(`${URL}${state.currentUser.id}`, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json'},
-//     body: JSON.stringify({user_id: state.currentUser.id,
-//                           // activities: {name: activityName.value, beginning_time: beginningTime.value,
-//                           //             end_time: endingTime.value, location: activityLocation.value}
-//                                     })
-// }).then(resp => resp.json())}
 
-// // Create activity
+// Create activity
 
   addActivityBtn.addEventListener('click', (e) => {
     // prevent page to refresh
     e.preventDefault()
-    // debugger
+    state.activities.push({name: activityName.value, beginning_time: timeStringToFloat(beginningTime.value),
+                end_time: timeStringToFloat(endingTime.value), location: activityLocation.value})
     //add to API
     fetch(`http://localhost:3000/activities`, {
       method: 'POST',
