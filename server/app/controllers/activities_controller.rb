@@ -24,8 +24,17 @@ class ActivitiesController < ApplicationController
     end
   end
 
+  def show
+    activity = Activity.find_by(id: params[:id])
+    if activity
+      render json: activity
+    else
+      render json: {error: "This activity does not exist?"}, status: 404
+    end
+  end
+
   def destroy
-    activity = Activity.find_by(activity_params)
+    activity = Activity.find_by(id: params[:id])
     if activity
       activity.destroy
       render json: {message: "Activity destroyed"}
