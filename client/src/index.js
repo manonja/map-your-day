@@ -1,4 +1,7 @@
-const URL = 'http://localhost:3000/users/'
+const base_URL = 'http://localhost:3000/'
+const activities_URL = 'http://localhost:3000/activities/'
+const users_URL = 'http://localhost:3000/users/'
+
 const startBtn = document.querySelector('#start-btn')
 const loginBtn = document.querySelector('#login-btn')
 const jumbotron = document.querySelector('#jumbotron')
@@ -69,15 +72,17 @@ homePage.addEventListener('click', (e) => {
   e.preventDefault()
   jumbotron.style.display = 'block'
   timelineDiv.style.display = 'none'
+  map.style.display = 'none'
+  addActivityBtn.style.display = 'none'
+  activityForm.style.display = 'none'
+
 })
 
-// Display timeline for one activity
-const displayActivityTimeline = () => {
 
-}
-
+// Display timeline for each activity
 let counter = 0
-const activity = () => {
+const timeLineActivity = () => {
+  // reset page
   timelineDiv.innerHTML = ""
 
   let newItem = ""
@@ -102,39 +107,39 @@ const activity = () => {
         </div>
       </li>
     `
-  
   })
   return newItem
-
 }
 
-timelineBtn.addEventListener('click', (e) => {
+// Display summary for each activity
+const summaryActivity = () => {
+  // reset page 
+  summaryDiv.innerHTML = ""
+  newActivity = ""
+  state.activities.forEach(el => {
+    newActivity += `
+    <li class="list-group-item">${el.beginning_time}h - ${el.end_time}h: ${el.name} - Where? ${el.location} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>  
+    `
+  })
+  return newActivity
+}
+
+// Add activity to timeline onclick
+timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
-  // timelineList.innerHTML = ""
-  timelineList.innerHTML = activity()
+  timelineList.innerHTML = timelineActivity()
   timelineDiv.append(timelineList)
 })
 //should we add the location and/or a little map?^
 
-
-// Display activity
-const displayUserActivity = (user) => {
-
-}
-
-// Display activities
-const displayActivities = () => {
-  state.activities.forEach(displayUserActivity)
-}
-
-// Create activity
+// Create activity 
   addActivityBtn.addEventListener('click', (e) => {
     // prevent page to refresh
     e.preventDefault()
     // debugger
     //add to API
-    fetch(`http://localhost:3000/activities`, {
+    fetch(activities_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify({user_id: state.currentUser.id,
@@ -143,36 +148,30 @@ const displayActivities = () => {
                                       })
   }).then(resp => resp.json())
 
-// add activity to summary
-const activityList = document.createElement('ul')
-activityList.className = "list-group"
+    // Add activity to summary
+    const activityList = document.createElement('ul')
+    activityList.className = "list-group"
 
-activityList.innerHTML = `
-  <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
+    activityList.innerHTML = summaryActivity()
 
-`
-// add to the timeline 
+    // delete activity
+    const deleteBtn = activityList.querySelector('#delete-btn')
+    deleteBtn.addEventListener('click', () => {
+      activityList.remove()
+    })
 
-
-
-// delete activity
-const deleteBtn = activityList.querySelector('#delete-btn')
-deleteBtn.addEventListener('click', () => {
-  activityList.remove()
-})
-
-summaryDiv.append(activityList)
-reset()
+    summaryDiv.append(activityList)
+    reset()
 
 })
 
-  const reset = () => {
+// reset form values
+const reset = () => {
     activityName.value = ""
     beginningTime.value = "06:00:00"
     endingTime.value = "08:00:00"
   activityLocation.value = ""
 }
-
 
 // convert time to decimal
 const timeStringToFloat = (time) => {
@@ -277,23 +276,24 @@ userLogin.addEventListener('click', (e) => {
   modal.style.display = 'none'
 })
 
+// Welcome user
+const welcome = () => {
+
+}
+
+// Server
 const login = userName => {
-  return fetch(URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({username: userName})
-  })
-    .then(resp => resp.json())
-    .catch(err => console.log(err))
+return fetch(users_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({username: userName})
+})
+  .then(resp => resp.json())
+  .catch(err => console.log(err))
 
 }
 
-  //server
-const getUserData = (user) => {
-  return fetch(`${URL}${user.id}`)
-    .then(resp => resp.json())
-}
-
+// Loads google maps
 document.addEventListener("DOMContentLoaded", () => {
   initAutocomplete()
 })
