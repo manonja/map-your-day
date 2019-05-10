@@ -29,6 +29,8 @@ const toggleAddActivityForm = () => {
     activityForm.style.display = 'none'
     map.style.display = 'none'
     addActivityBtn.style.display = 'none'
+    timelineDiv.style.display === 'none'
+
   }
 }
 
@@ -40,6 +42,8 @@ const toggleSummary = () => {
     jumbotron.style.display = 'none'
     map.style.display = 'none'
     addActivityBtn.style.display = 'none'
+    timelineDiv.style.display === 'none'
+
   } else {
     summaryDiv.style.display = 'none'
 
@@ -61,9 +65,11 @@ const toggleTimeline = () => {
 }
 
 // prevent the page to refresh when we click the homepage button
-// homePage.addEventListener('click', (e) => {
-//   e.preventDefault()
-// })
+homePage.addEventListener('click', (e) => {
+  e.preventDefault()
+  jumbotron.style.display = 'block'
+  timelineDiv.style.display = 'none'
+})
 
 // Display timeline for one activity
 const displayActivityTimeline = () => {
@@ -72,6 +78,8 @@ const displayActivityTimeline = () => {
 
 let counter = 0
 const activity = () => {
+  timelineDiv.innerHTML = ""
+
   let newItem = ""
   state.activities.forEach(el => {
     counter++
@@ -93,17 +101,17 @@ const activity = () => {
             </div>
         </div>
       </li>
-
-      `
-
+    `
+  
   })
   return newItem
 
 }
 
-timelineBtn.addEventListener('click', () => {
+timelineBtn.addEventListener('click', (e) => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
+  // timelineList.innerHTML = ""
   timelineList.innerHTML = activity()
   timelineDiv.append(timelineList)
 })
@@ -120,19 +128,7 @@ const displayActivities = () => {
   state.activities.forEach(displayUserActivity)
 }
 
-//POST activities
-// const createActivity = () => {
-//   return fetch(`${URL}${state.currentUser.id}`, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json'},
-//     body: JSON.stringify({user_id: state.currentUser.id,
-//                           // activities: {name: activityName.value, beginning_time: beginningTime.value,
-//                           //             end_time: endingTime.value, location: activityLocation.value}
-//                                     })
-// }).then(resp => resp.json())}
-
-// // Create activity
-
+// Create activity
   addActivityBtn.addEventListener('click', (e) => {
     // prevent page to refresh
     e.preventDefault()
@@ -146,24 +142,29 @@ const displayActivities = () => {
                                         end_time: endingTime.value, location: activityLocation.value
                                       })
   }).then(resp => resp.json())
-    // add activity to summary
-    const activityList = document.createElement('ul')
-    activityList.className = "list-group"
 
-    activityList.innerHTML = `
-      <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
+// add activity to summary
+const activityList = document.createElement('ul')
+activityList.className = "list-group"
 
-    `
-    // delete activity
-    const deleteBtn = activityList.querySelector('#delete-btn')
-    deleteBtn.addEventListener('click', () => {
-      activityList.remove()
-    })
+activityList.innerHTML = `
+  <li class="list-group-item">${beginningTime.value} - ${endingTime.value}: ${activityName.value} - Where? ${activityLocation.value} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
 
-    summaryDiv.append(activityList)
-    reset()
+`
+// add to the timeline 
 
-  })
+
+
+// delete activity
+const deleteBtn = activityList.querySelector('#delete-btn')
+deleteBtn.addEventListener('click', () => {
+  activityList.remove()
+})
+
+summaryDiv.append(activityList)
+reset()
+
+})
 
   const reset = () => {
     activityName.value = ""
@@ -292,19 +293,6 @@ const getUserData = (user) => {
   return fetch(`${URL}${user.id}`)
     .then(resp => resp.json())
 }
-
-
-// }
-
-// const init = () => {
-//   getUserData(user).then( (user) => {
-//     state.activities = user.activities
-//     state.currentUser = user
-//   })
-//
-// }
-//
-// init()
 
 document.addEventListener("DOMContentLoaded", () => {
   initAutocomplete()
