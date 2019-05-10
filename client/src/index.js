@@ -78,6 +78,7 @@ homePage.addEventListener('click', (e) => {
 
 })
 
+// sort activities
 
 // Display timeline for each activity
 let counter = 0
@@ -128,7 +129,7 @@ const summaryActivity = () => {
 timelineBtn.addEventListener('click', () => {
   const timelineList = document.createElement('ul')
   timelineList.className = "timeline"
-  timelineList.innerHTML = timelineActivity()
+  timelineList.innerHTML = timeLineActivity()
   timelineDiv.append(timelineList)
 })
 //should we add the location and/or a little map?^

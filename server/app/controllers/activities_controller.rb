@@ -1,7 +1,12 @@
 class ActivitiesController < ApplicationController
 
+  # def sorted_activities
+  #   activities = Activity.all
+  #   sorted_activities = activities.sort_by{|a| a.beginning_time}
+  # end
+
   def index
-    activities = Activity.all
+    activities = Activity.all.sort_by{|a| a.beginning_time}
     render json: activities
   end
 
