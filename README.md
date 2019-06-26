@@ -28,10 +28,10 @@ Project requirements
 Once you entered your name, you have access to your timeline and can add as many activity for the day that you want. 
 
 ### MVP 
-The user can login.
-The user can add an activity with a name, a location, and a time.
-The user can see a summary of his activties. 
-The user can delete an activity. 
+- The user can login.
+- The user can add an activity with a name, a location, and a time.
+- The user can see a summary of his activties. 
+- The user can delete an activity. 
 
 ### Authors
 Myrto Konstantinidi - https://github.com/myrtokonst
