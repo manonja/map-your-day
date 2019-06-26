@@ -106,7 +106,7 @@ const timeLineActivity = () => {
                 <p>This activity will take you ${el.end_time - el.beginning_time} hour(s)</p>
             </div>
             <div class="timeline-footer">
-                <p class="text-right">May-9-2019</p>
+                <p class="text-right">May-10-2019</p>
             </div>
         </div>
       </li>
