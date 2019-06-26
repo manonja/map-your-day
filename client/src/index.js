@@ -82,7 +82,6 @@ homePage.addEventListener('click', (e) => {
 })
 
 // sort activities
-
 // Display timeline for each activity
 let counter = 0
 const timeLineActivity = () => {
@@ -125,9 +124,7 @@ const summaryActivity = () => {
     <li class="list-group-item">${el.beginning_time}h - ${el.end_time}h: ${el.name} - Where? ${el.location} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id="${el.id}" style="float: right;"></li>
     `
   })
-
   return newActivity
-
 }
 
 // Add activity to timeline onclick
