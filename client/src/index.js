@@ -18,6 +18,9 @@ const timelineBtn = document.querySelector('#timeline-btn')
 const userLogin = document.querySelector("#login")
 const map = document.querySelector('#map')
 const homePage = document.querySelector('#home')
+const activityList = document.createElement('ul')
+
+
 
 // toggle form
 const toggleAddActivityForm = () => {
@@ -103,7 +106,7 @@ const timeLineActivity = () => {
                 <p>This activity will take you ${el.end_time - el.beginning_time} hour(s)</p>
             </div>
             <div class="timeline-footer">
-                <p class="text-right">May-9-2019</p>
+                <p class="text-right">May-10-2019</p>
             </div>
         </div>
       </li>
@@ -119,10 +122,12 @@ const summaryActivity = () => {
   newActivity = ""
   state.activities.forEach(el => {
     newActivity += `
-    <li class="list-group-item">${el.beginning_time}h - ${el.end_time}h: ${el.name} - Where? ${el.location} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id='delete-btn' style="float: right;"></li>
+    <li class="list-group-item">${el.beginning_time}h - ${el.end_time}h: ${el.name} - Where? ${el.location} - Duration? ${activityDuration()} hour(s)<input type="button" class="btn orange" value="Delete" id="${el.id}" style="float: right;"></li>
     `
   })
+
   return newActivity
+
 }
 
 // Add activity to timeline onclick
@@ -134,57 +139,60 @@ timelineBtn.addEventListener('click', () => {
 })
 //should we add the location and/or a little map?^
 
-
-// Display activity
-const displayUserActivity = (user) => {
-
-}
-
-// Display activities
-const displayActivities = () => {
-  state.activities.forEach(displayUserActivity)
-}
-
-
 // Create activity
-
   addActivityBtn.addEventListener('click', (e) => {
-    // prevent page to refresh
+    // Prevent page to refresh
     e.preventDefault()
-    state.activities.push({name: activityName.value, beginning_time: timeStringToFloat(beginningTime.value),
-                end_time: timeStringToFloat(endingTime.value), location: activityLocation.value})
-    //add to API
+
+
+    state.activities.push({
+      id: getUserData().then(data => data.activities[data.activities.length -1].id),
+      name: activityName.value, 
+      beginning_time: timeStringToFloat(beginningTime.value),
+      end_time: timeStringToFloat(endingTime.value), 
+      location: activityLocation.value})
+
+    // Add activity to server
     fetch(activities_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify({user_id: state.currentUser.id,
-                            name: activityName.value, beginning_time: beginningTime.value,
-                                        end_time: endingTime.value, location: activityLocation.value
-                                      })
+      body: JSON.stringify({
+        user_id: state.currentUser.id,
+        name: activityName.value, 
+        beginning_time: beginningTime.value,
+        end_time: endingTime.value,
+        location: activityLocation.value
+    })
   }).then(resp => resp.json())
 
-    // Add activity to summary
-    const activityList = document.createElement('ul')
-    activityList.className = "list-group"
 
+
+    // Add activity on the page
+    activityList.className = "list-group"
     activityList.innerHTML = summaryActivity()
 
-    // delete activity
-    const deleteBtn = activityList.querySelector('#delete-btn')
-    deleteBtn.addEventListener('click', () => {
-      activityList.remove()
-    })
-
+    // Delete activity on the page
+    activityList.addEventListener('click', (e) => { 
+      if (e.target.className === "btn orange") {
+        li = e.target.parentElement 
+        elId = e.target.id
+        li.remove() 
+        // Delete activity from server
+        fetch(activities_URL + `${elId}`, {
+          method: 'DELETE'    
+        }).then(resp => resp.json())
+      }
+    }) 
     summaryDiv.append(activityList)
     reset()
-
 })
+
 
 // reset form values
 const reset = () => {
-    activityName.value = ""
-    beginningTime.value = "06:00:00"
-    endingTime.value = "08:00:00"
+  activityName.value = ""
+  beginningTime.value = "06:00:00"
+  endingTime.value = "08:00:00"
   activityLocation.value = ""
 }
 
@@ -200,76 +208,6 @@ const timeStringToFloat = (time) => {
 const activityDuration = () => {
   return timeStringToFloat(endingTime.value) - timeStringToFloat(beginningTime.value)
 }
-
-// init google maps
-function initAutocomplete() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 51.520416, lng: -0.087607},
-      zoom: 13,
-      mapTypeId: 'roadmap'
-    });
-
-    // Create the search box and link it to the UI element.
-    var input = document.getElementById('pac-input');
-    var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener('bounds_changed', function() {
-      searchBox.setBounds(map.getBounds());
-    });
-
-    var markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener('places_changed', function() {
-      var places = searchBox.getPlaces();
-
-      if (places.length == 0) {
-        return;
-      }
-
-      // Clear out the old markers.
-      markers.forEach(function(marker) {
-        marker.setMap(null);
-      });
-      markers = [];
-
-      // For each place, get the icon, name and location.
-      var bounds = new google.maps.LatLngBounds();
-      places.forEach(function(place) {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        var icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-          map: map,
-          icon: icon,
-          title: place.name,
-          position: place.geometry.location
-        }));
-
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      map.fitBounds(bounds);
-    });
-  }
-
-
 
 //state
   const state = {
@@ -291,11 +229,6 @@ userLogin.addEventListener('click', (e) => {
   modal.style.display = 'none'
 })
 
-// Welcome user
-const welcome = () => {
-
-}
-
 // Server
 const login = userName => {
 return fetch(users_URL, {
@@ -308,7 +241,83 @@ return fetch(users_URL, {
 
 }
 
+const getUserData = () => {
+  return fetch(users_URL + `${state.currentUser.id}`)
+    .then(resp => resp.json())
+}
+
+
+// init google maps
+function initAutocomplete() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 51.520416, lng: -0.087607},
+    zoom: 13,
+    mapTypeId: 'roadmap'
+  });
+
+  // Create the search box and link it to the UI element.
+  var input = document.getElementById('pac-input');
+  var searchBox = new google.maps.places.SearchBox(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener('bounds_changed', function() {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  var markers = [];
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+    // Clear out the old markers.
+    markers.forEach(function(marker) {
+      marker.setMap(null);
+    });
+    markers = [];
+
+    // For each place, get the icon, name and location.
+    var bounds = new google.maps.LatLngBounds();
+    places.forEach(function(place) {
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+      var icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+      };
+
+      // Create a marker for each place.
+      markers.push(new google.maps.Marker({
+        map: map,
+        icon: icon,
+        title: place.name,
+        position: place.geometry.location
+      }));
+
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+  });
+}
+
 // Loads google maps
 document.addEventListener("DOMContentLoaded", () => {
   initAutocomplete()
 })
+
+
